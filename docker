@@ -1,0 +1,18 @@
+FROM python:3.10-slim
+
+# Create a non-root user
+RUN adduser --disabled-password --gecos '' appuser
+
+# Set working directory
+WORKDIR /app
+
+# Copy everything and install requirements
+COPY --chown=appuser:appuser . .
+
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+
+# Switch to non-root user
+USER appuser
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
