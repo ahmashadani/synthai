@@ -1,0 +1,14 @@
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a//dev/null b/Dockerfile
+index 0000000000000000000000000000000000000000..7718c7d0c30e2dcc43808c9e3349844dc96729c0 100644
+--- a//dev/null
++++ b/Dockerfile
+@@ -0,0 +1,5 @@
++FROM python:3.10-slim
++WORKDIR /app
++COPY . .
++RUN pip install --no-cache-dir -r requirements.txt
++CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+ 
+EOF
+)
